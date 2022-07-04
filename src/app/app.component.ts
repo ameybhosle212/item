@@ -57,6 +57,9 @@ export class AppComponent {
       this.modalService.open(this.someElement).result.then((result) => {
       let mn = this.ItemForm.controls.qty.value! * this.ItemForm.controls.rate.value!
       this.total = this.total + mn;
+      // const ids = this.arrayItem.map(o => o.name)
+      // const filtered = this.arrayItem.filter(({id}, index) => !ids.includes(id, index + 1))
+      console.log("filtered value is",this.arrayItem);
       
       this.ItemForm.patchValue({
         'total':mn
@@ -75,7 +78,8 @@ export class AppComponent {
       this.ItemForm = tempForm;
 
 
-
+        console.log("ARRAY VALUE ARE ", this.arrayItem);
+        
         console.log("All items are ",this.getAllItems.value);
         console.log("All Item forms are ", this.ItemForm.value);
         
@@ -100,6 +104,9 @@ export class AppComponent {
         }
         // this.AddNewEmptyItems()
       }
+      const ids = this.arrayItem.map(o => o.name)
+      const filtered = this.arrayItem.filter(({id}, index) => !ids.includes(id, index + 1))
+      console.log("filtered value is",filtered);
       if(mmn !=1){
         let {qty , rate , total}  = this.getAllItems.at(mmn).value
         this.getAllItems.at(index).value.qty = qty;
@@ -160,10 +167,24 @@ export class AppComponent {
   }
 
   DeleteDocumentAndReturnFormGroup(data:any){
-    
-    if(data!=0){
-      this.getAllItems.removeAt(data);
+    console.log("DELTE");
+    this.total = this.total - this.getAllItems.at(data).value.total
+    let {name , qty , rate , description } = this.getAllItems.at(data).value
+    this.getAllItems.removeAt(data)
+    let innn = -1;
+    for (let index = 0; index < this.arrayItem.length; index++) {
+      const element = this.arrayItem[index];
+      if(element.value.name === name){
+        innn = index;
+      }
     }
+    if(innn != -1)   this.arrayItem.splice(innn , innn+1)
+    
+    // if(data!=0){
+    //   console.log("IN DELETE");
+      
+    //   this.getAllItems.removeAt(data);
+    // }
   }
 
   valueExistOrNot(data:any){

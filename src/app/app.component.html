@@ -17,6 +17,7 @@
       <td>{{v.qty}}</td>
       <td>{{v.rate}}</td>
       <td>{{v.total}}</td>
+      <td *ngIf="arrayItem.length > 0"><button (click)="DeleteDocumentAndReturnFormGroup(i)">Delete</button></td>
     </tr>
   </tbody>
 </table>
