@@ -10,6 +10,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
   title = 'AddItems';
   vvvv = ""
+  total = 0;
   itemArray : any[] = []
   closeResult: string = "";
   @ViewChild('content') someElement!: ElementRef 
@@ -54,21 +55,26 @@ export class AppComponent {
       this.arrayItem.splice(parseInt(index) , parseInt(index)+1)
       this.getAllItems.removeAt(parseInt(index))
       this.modalService.open(this.someElement).result.then((result) => {
-        let mn = this.ItemForm.controls.qty.value! * this.ItemForm.controls.rate.value!
-        this.ItemForm.patchValue({
-          'total':mn
-        })
-        this.getAllItems.push(this.ItemForm)
-        this.arrayItem.push(this.ItemForm)
-        console.log(this.arrayItem);
-        
-        this.ItemForm.patchValue({
-          name: "",
-          rate: 0.0,
-          description: "",
-          qty: 1,
-          total: 0.0,
-        })
+      let mn = this.ItemForm.controls.qty.value! * this.ItemForm.controls.rate.value!
+      this.total = this.total + mn;
+      
+      this.ItemForm.patchValue({
+        'total':mn
+      })
+      this.getAllItems.push(this.ItemForm)
+      this.arrayItem.push(this.ItemForm)
+      console.log(this.arrayItem);
+      
+      let tempForm = new FormGroup({
+        name: new FormControl(""),
+        rate: new FormControl(0.0),
+        description: new FormControl(""),
+        qty: new FormControl(1),
+        total: new FormControl(0.0),
+      })
+      this.ItemForm = tempForm;
+
+
 
         console.log("All items are ",this.getAllItems.value);
         console.log("All Item forms are ", this.ItemForm.value);
@@ -99,7 +105,7 @@ export class AppComponent {
         this.getAllItems.at(index).value.qty = qty;
         this.getAllItems.at(index).value.rate = rate;
         this.getAllItems.at(index).value.total = total;
-
+        this.total = this.total + total;
       }else{
         
       }
