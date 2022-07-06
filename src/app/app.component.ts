@@ -52,6 +52,8 @@ export class AppComponent {
 
       console.log(this.someElement);
       this.arrayItem.push(this.ItemForm)
+      console.log("Array Item ",this.ItemForm.value);
+      
       this.arrayItem.splice(parseInt(index) , parseInt(index)+1)
       this.getAllItems.removeAt(parseInt(index))
       this.modalService.open(this.someElement).result.then((result) => {
@@ -59,7 +61,7 @@ export class AppComponent {
       this.total = this.total + mn;
       // const ids = this.arrayItem.map(o => o.name)
       // const filtered = this.arrayItem.filter(({id}, index) => !ids.includes(id, index + 1))
-      console.log("filtered value is",this.arrayItem);
+      // console.log("filtered value is",this.arrayItem.values);
       
       this.ItemForm.patchValue({
         'total':mn
